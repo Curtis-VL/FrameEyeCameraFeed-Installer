@@ -1,0 +1,185 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="870" d:DesignHeight="500"
+             x:Class="FrameEyeCameraFeed_Installer.VrcSetupPage">
+
+    <!-- Step-by-step guide for VRChat eye tracking. One Step panel is shown at a time, see VrcSetupPage.axaml.cs. -->
+
+    <Grid ColumnDefinitions="240,16,*">
+
+        <!-- Step list -->
+        <Border Classes="card">
+            <StackPanel Spacing="10">
+                <TextBlock Classes="h2">VRChat eye tracking</TextBlock>
+                <TextBlock Classes="muted">Optional. Sets up VRCFaceTracking and EyeTrackVR on this PC so they use the Frame's eye cameras.</TextBlock>
+                <StackPanel Name="StepList" Spacing="12" Margin="0,8,0,0" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="2" Classes="card">
+            <Grid RowDefinitions="*,Auto" RowSpacing="12">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Panel Margin="0,0,14,0">
+
+                        <!-- 1: tracking module -->
+                        <StackPanel Name="Step1" Spacing="10">
+                            <TextBlock Classes="h2">Install the tracking module</TextBlock>
+                            <TextBlock Classes="body">VRCFaceTracking needs a module to receive the eye data. This installs the Steam Link version of the EyeTrackVR module, which merges in Steam Link's own gaze data to make up for EyeTrackVR struggling to get accurate gaze data with the Frame.</TextBlock>
+                            <TextBlock Classes="muted">Downloads the latest release from GitHub into the folder below. Close VRCFaceTracking first if it is open.</TextBlock>
+                            <Border Classes="inset" Padding="12,8">
+                                <SelectableTextBlock Name="ModulePathText" Classes="mono" />
+                            </Border>
+                            <StackPanel Orientation="Horizontal" Spacing="14">
+                                <Button Name="InstallModuleButton" Classes="accent">Install module</Button>
+                                <HyperlinkButton Name="ModuleReleasesLink" VerticalAlignment="Center">View the releases on GitHub</HyperlinkButton>
+                            </StackPanel>
+
+                            <Border Name="ConflictPanel" Classes="warn" IsVisible="False">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Classes="label" Foreground="{StaticResource WarnBrush}">The original EyeTrackVR module is installed</TextBlock>
+                                    <TextBlock Classes="muted" Foreground="{StaticResource TextBrush}">It conflicts with the Steam Link version. Do you want to remove it? This deletes:</TextBlock>
+                                    <SelectableTextBlock Name="ConflictList" Classes="mono" />
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <Button Name="RemoveConflictsButton">Remove it and install</Button>
+                                        <Button Name="KeepConflictsButton">Keep it and install anyway</Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Classes="inset" MinHeight="70">
+                                <SelectableTextBlock Name="ModuleLog" Classes="mono" Margin="12,8" Foreground="{StaticResource TextBrush}" />
+                            </Border>
+                        </StackPanel>
+
+                        <!-- 2: SteamVR settings -->
+                        <StackPanel Name="Step2" Spacing="10" IsVisible="False">
+                            <TextBlock Classes="h2">Turn on OSC in SteamVR</TextBlock>
+                            <TextBlock Classes="body">Steam Link has to share the headset's eye data with other apps on this PC. This sets three Steam Link options in SteamVR's settings file:</TextBlock>
+                            <Border Classes="inset" Padding="12,8">
+                                <SelectableTextBlock Classes="mono" xml:space="preserve">Enable OSC                                                    On
+Share face tracking data to other apps on this PC via OSC     On
+OSC Output Port                                               9015 (Alt)</SelectableTextBlock>
+                            </Border>
+                            <TextBlock Classes="muted">SteamVR must be closed while this is changed. A backup of the settings file is kept next to it.</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Name="ApplySteamVrButton" Classes="accent">Apply settings</Button>
+                            </StackPanel>
+                            <Border Classes="inset" MinHeight="70">
+                                <SelectableTextBlock Name="SteamVrLog" Classes="mono" Margin="12,8" Foreground="{StaticResource TextBrush}" />
+                            </Border>
+                            <TextBlock Classes="muted">Prefer to do it by hand? In SteamVR, open Settings, turn on Advanced Settings, then set the three options above on the Steam Link page.</TextBlock>
+                        </StackPanel>
+
+                        <!-- 3: VRCFaceTracking -->
+                        <StackPanel Name="Step3" Spacing="10" IsVisible="False">
+                            <TextBlock Classes="h2">Install VRCFaceTracking</TextBlock>
+                            <TextBlock Classes="body">VRCFaceTracking sends the eye tracking data to your VRChat avatar. Install it from Steam, then come back here.</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Name="OpenVrcftStoreButton">Open VRCFaceTracking on Steam</Button>
+                            </StackPanel>
+                            <CheckBox Name="VrcftInstalledCheck">I have installed VRCFaceTracking</CheckBox>
+                        </StackPanel>
+
+                        <!-- 4: EyeTrackVR -->
+                        <StackPanel Name="Step4" Spacing="10" IsVisible="False">
+                            <TextBlock Classes="h2">Install EyeTrackVR</TextBlock>
+                            <TextBlock Classes="body">EyeTrackVR turns the Frame's eye camera streams into eye tracking data. Download and install the latest release, then come back here.</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Name="OpenEtvrButton">Open the EyeTrackVR downloads</Button>
+                            </StackPanel>
+                            <CheckBox Name="EtvrInstalledCheck">I have installed EyeTrackVR</CheckBox>
+                        </StackPanel>
+
+                        <!-- 5: EyeTrackVR setup -->
+                        <StackPanel Name="Step5" Spacing="14" IsVisible="False">
+                            <TextBlock Classes="h2">Set up EyeTrackVR</TextBlock>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border Classes="step"><TextBlock>1</TextBlock></Border>
+                                <StackPanel Grid.Column="1" Spacing="6">
+                                    <TextBlock Classes="body">Open EyeTrackVR and enter these camera addresses:</TextBlock>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="6">
+                                        <TextBlock Classes="label" VerticalAlignment="Center">Left eye</TextBlock>
+                                        <Border Grid.Column="1" Classes="inset" Padding="12,6">
+                                            <SelectableTextBlock Name="LeftUrlText" Classes="mono" />
+                                        </Border>
+                                        <Button Grid.Column="2" Name="CopyLeftButton" MinWidth="72" HorizontalContentAlignment="Center">Copy</Button>
+
+                                        <TextBlock Grid.Row="1" Classes="label" VerticalAlignment="Center">Right eye</TextBlock>
+                                        <Border Grid.Row="1" Grid.Column="1" Classes="inset" Padding="12,6">
+                                            <SelectableTextBlock Name="RightUrlText" Classes="mono" />
+                                        </Border>
+                                        <Button Grid.Row="1" Grid.Column="2" Name="CopyRightButton" MinWidth="72" HorizontalContentAlignment="Center">Copy</Button>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border Classes="step"><TextBlock>2</TextBlock></Border>
+                                <TextBlock Grid.Column="1" Classes="body">In EyeTrackVR, go to Settings, then OSC Settings, and select VRCFT (v2).</TextBlock>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border Classes="step"><TextBlock>3</TextBlock></Border>
+                                <TextBlock Grid.Column="1" Classes="body">Put on the headset, then click Start Calibration in EyeTrackVR.</TextBlock>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border Classes="step"><TextBlock>4</TextBlock></Border>
+                                <TextBlock Grid.Column="1" Classes="body">For further tweaking, go to Algo Settings, then Manual Eyelid Tuning.</TextBlock>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- 6: finish -->
+                        <StackPanel Name="Step6" Spacing="12" IsVisible="False">
+                            <TextBlock Classes="h2">Open VRCFaceTracking</TextBlock>
+                            <TextBlock Classes="body">That's the last step. Open VRCFaceTracking, then click Done for some final tips.</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Name="LaunchVrcftButton">Open VRCFaceTracking</Button>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Shown after Done: final tips. Not part of the numbered step list. -->
+                        <StackPanel Name="StepDone" Spacing="14" IsVisible="False">
+                            <TextBlock Classes="h2">You're all set</TextBlock>
+                            <TextBlock Classes="body">A few final tips for using eye tracking in VRChat:</TextBlock>
+
+                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10" ColumnSpacing="10">
+                                <PathIcon Grid.Row="0" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="body">Make sure OSC is enabled in the VRChat action menu.</TextBlock>
+                                <PathIcon Grid.Row="1" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                <TextBlock Grid.Row="1" Grid.Column="1" Classes="body">If you don't see eye tracking working on your avatar, switch to another avatar and back again.</TextBlock>
+                                <PathIcon Grid.Row="3" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                <TextBlock Grid.Row="3" Grid.Column="1" Classes="body">Setting the Frame to a static local IP address in your router's DHCP settings may improve reliability. Use that address in place of "frame" in EyeTrackVR's camera addresses.</TextBlock>
+                                <PathIcon Grid.Row="2" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                <StackPanel Grid.Row="2" Grid.Column="1" Spacing="2">
+                                    <TextBlock Classes="body">With the program VRCX you can set both EyeTrackVR and VRCFaceTracking to start automatically when VRChat opens.</TextBlock>
+                                    <HyperlinkButton NavigateUri="https://github.com/vrcx-team/VRCX">VRCX on GitHub</HyperlinkButton>
+                                </StackPanel>
+                            </Grid>
+
+                            <Border Classes="inset" Padding="14,12">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <StackPanel Spacing="2" VerticalAlignment="Center">
+                                        <TextBlock Classes="label">Not working?</TextBlock>
+                                        <TextBlock Classes="body">Contact me on Discord for help! @curtisvl</TextBlock>
+                                    </StackPanel>
+                                    <Button Grid.Column="1" Name="CopyDiscordButton" VerticalAlignment="Center">Copy username</Button>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+                    </Panel>
+                </ScrollViewer>
+
+                <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
+                    <Button Name="BackButton" MinWidth="80" HorizontalContentAlignment="Center">Back</Button>
+                    <TextBlock Grid.Column="1" Name="StepCounter" Classes="muted" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Column="2" Name="NextButton" Classes="accent" MinWidth="80" HorizontalContentAlignment="Center">Next</Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

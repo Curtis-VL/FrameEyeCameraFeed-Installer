@@ -1,0 +1,44 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "H:\\Files\\VRC\\FrameCameraFeed\\FrameEyeCameraFeed-Installer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{12105E95-8C24-5421-DEBB-0CF4A3194329}|FrameEyeCameraFeed-Installer.csproj|h:\\files\\vrc\\framecamerafeed\\frameeyecamerafeed-installer\\mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{12105E95-8C24-5421-DEBB-0CF4A3194329}|FrameEyeCameraFeed-Installer.csproj|solutionrelative:mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{73068c07-fba1-453f-99ae-6edf972119b2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.axaml",
+              "DocumentMoniker": "H:\\Files\\VRC\\FrameCameraFeed\\FrameEyeCameraFeed-Installer\\MainWindow.axaml",
+              "RelativeDocumentMoniker": "MainWindow.axaml",
+              "ToolTip": "H:\\Files\\VRC\\FrameCameraFeed\\FrameEyeCameraFeed-Installer\\MainWindow.axaml",
+              "RelativeToolTip": "MainWindow.axaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-10-02T20:41:07.465Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

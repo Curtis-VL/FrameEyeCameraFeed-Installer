@@ -1,0 +1,147 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="FrameEyeCameraFeed_Installer.App"
+             RequestedThemeVariant="Dark">
+
+    <Application.Resources>
+        <!-- Palette -->
+        <SolidColorBrush x:Key="AppBackgroundBrush" Color="#14161B" />
+        <SolidColorBrush x:Key="CardBrush" Color="#1C1F26" />
+        <SolidColorBrush x:Key="CardBorderBrush" Color="#2A2E38" />
+        <SolidColorBrush x:Key="InsetBrush" Color="#0F1115" />
+        <SolidColorBrush x:Key="TextBrush" Color="#E6E8EC" />
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#9AA1AE" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#4F8CFF" />
+        <SolidColorBrush x:Key="AccentTintBrush" Color="#1B2740" />
+        <SolidColorBrush x:Key="SafeBrush" Color="#3DD68C" />
+        <SolidColorBrush x:Key="SafeTintBrush" Color="#13251D" />
+        <SolidColorBrush x:Key="SafeBorderBrush" Color="#1F4A37" />
+        <SolidColorBrush x:Key="WarnBrush" Color="#F2B84B" />
+        <SolidColorBrush x:Key="WarnTintBrush" Color="#2A2212" />
+        <SolidColorBrush x:Key="WarnBorderBrush" Color="#5C4A1A" />
+
+        <FontFamily x:Key="MonoFont">Consolas, Menlo, DejaVu Sans Mono, monospace</FontFamily>
+
+        <!-- Icons (Material Design icons, Apache 2.0) -->
+        <StreamGeometry x:Key="IconEye">M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z</StreamGeometry>
+        <StreamGeometry x:Key="IconLock">M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z</StreamGeometry>
+        <StreamGeometry x:Key="IconShield">M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z</StreamGeometry>
+        <StreamGeometry x:Key="IconCheck">M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z</StreamGeometry>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <ColorPaletteResources x:Key="Dark" Accent="#4F8CFF" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
+
+        <!-- Cards -->
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{StaticResource CardBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource CardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="18,16" />
+        </Style>
+        <Style Selector="Border.inset">
+            <Setter Property="Background" Value="{StaticResource InsetBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource CardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+        <Style Selector="Border.safe">
+            <Setter Property="Background" Value="{StaticResource SafeTintBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource SafeBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="12,10" />
+        </Style>
+        <Style Selector="Border.warn">
+            <Setter Property="Background" Value="{StaticResource WarnTintBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WarnBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="12,10" />
+        </Style>
+
+        <!-- Text -->
+        <Style Selector="TextBlock, SelectableTextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style Selector="TextBlock.title">
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style Selector="TextBlock.h2">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Medium" />
+        </Style>
+        <Style Selector="TextBlock.body, SelectableTextBlock.body">
+            <Setter Property="FontSize" Value="13.5" />
+            <Setter Property="LineHeight" Value="20" />
+        </Style>
+        <Style Selector="TextBlock.muted">
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="LineHeight" Value="18" />
+            <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+        </Style>
+        <Style Selector="SelectableTextBlock.mono">
+            <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="LineHeight" Value="18" />
+        </Style>
+
+        <!-- Numbered step badge -->
+        <Style Selector="Border.step">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Background" Value="{StaticResource AccentTintBrush}" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style Selector="Border.step > TextBlock">
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <!-- Step badge states used by the VRChat setup guide -->
+        <Style Selector="Border.step.current">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        </Style>
+        <Style Selector="Border.step.current > TextBlock">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Border.step.done">
+            <Setter Property="Background" Value="{StaticResource SafeTintBrush}" />
+        </Style>
+        <Style Selector="Border.step.done > TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SafeBrush}" />
+        </Style>
+
+        <!-- Links sit inline with text, so drop the button padding -->
+        <Style Selector="HyperlinkButton">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+
+        <!-- Page tabs -->
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="MinHeight" Value="38" />
+            <Setter Property="Padding" Value="0,0,0,2" />
+            <Setter Property="Margin" Value="0,0,24,0" />
+        </Style>
+
+        <Style Selector="Expander">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Application.Styles>
+</Application>

@@ -1,0 +1,127 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="870" d:DesignHeight="500"
+             x:Class="FrameEyeCameraFeed_Installer.HelpPage">
+
+    <!--
+        Setup guide and troubleshooting page. This file is content only, edit it freely.
+
+        To add a setup step, copy one of the <Grid> blocks under "Setup steps" and bump the number.
+        To add a troubleshooting entry, copy one of the <Expander> blocks under "Troubleshooting".
+        Text classes: "body" for normal text, "muted" for small grey notes.
+        Use SelectableTextBlock Classes="mono" inside <Border Classes="inset"> for commands or URLs.
+    -->
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="14" Margin="0,0,14,0">
+
+            <!-- ===== Setup steps ===== -->
+            <Border Classes="card">
+                <StackPanel Spacing="14">
+                    <TextBlock Classes="h2">Setup steps</TextBlock>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Classes="step"><TextBlock>1</TextBlock></Border>
+                        <StackPanel Grid.Column="1" Spacing="3">
+                            <TextBlock Classes="label">Set a user password on the Frame</TextBlock>
+                            <TextBlock Classes="body">In the Frame's developer settings, set a user password (for example "frame"). This is what lets the installer connect to the headset over SSH, and it is the password the Install tab asks for.</TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Classes="step"><TextBlock>2</TextBlock></Border>
+                        <StackPanel Grid.Column="1" Spacing="3">
+                            <TextBlock Classes="label">Put the Frame on the same network as this PC</TextBlock>
+                            <TextBlock Classes="body">Turn the headset on and make sure it is connected to the same network as this PC. It also needs internet access, because it downloads the software from GitHub itself.</TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Classes="step"><TextBlock>3</TextBlock></Border>
+                        <StackPanel Grid.Column="1" Spacing="3">
+                            <TextBlock Classes="label">Run the installer</TextBlock>
+                            <TextBlock Classes="body">On the Install tab, enter the password from step 1 and click Install / Update. Run it again at any time to update to the latest release.</TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Classes="step"><TextBlock>4</TextBlock></Border>
+                        <StackPanel Grid.Column="1" Spacing="6">
+                            <TextBlock Classes="label">Check the camera feeds</TextBlock>
+                            <TextBlock Classes="body">Put the headset on, then click Open status page on the Install tab. The feeds are served at:</TextBlock>
+                            <Border Classes="inset" Padding="12,8">
+                                <SelectableTextBlock Classes="mono" xml:space="preserve">http://frame:8090      status page
+http://frame:8090/1    left eye
+http://frame:8090/0    right eye</SelectableTextBlock>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Classes="step"><TextBlock>5</TextBlock></Border>
+                        <StackPanel Grid.Column="1" Spacing="3">
+                            <TextBlock Classes="label">Optional: set up eye tracking for VRChat</TextBlock>
+                            <TextBlock Classes="body">The VRChat setup tab installs the custom EyeTrackVR module for VRCFaceTracking, turns on OSC in SteamVR and walks you through EyeTrackVR. The custom module is highly recommended over the regular EyeTrackVR module, because it merges in the Steam Link OSC gaze data to make up for EyeTrackVR struggling to get accurate gaze data with the Frame.</TextBlock>
+                            <HyperlinkButton NavigateUri="https://github.com/Curtis-VL/ETVRTrackingModule-SteamLink">ETVRTrackingModule-SteamLink on GitHub</HyperlinkButton>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Classes="step"><TextBlock>6</TextBlock></Border>
+                        <StackPanel Grid.Column="1" Spacing="3">
+                            <TextBlock Classes="label">Recommended: give the Frame a fixed IP address</TextBlock>
+                            <TextBlock Classes="body">For better reliability, reserve an IP address for the Frame in your router's DHCP settings and use that address instead of the "frame" name.</TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Add more setup steps here -->
+                </StackPanel>
+            </Border>
+
+            <!-- ===== Troubleshooting ===== -->
+            <Border Classes="card">
+                <StackPanel Spacing="8">
+                    <TextBlock Classes="h2" Margin="0,0,0,4">Troubleshooting</TextBlock>
+
+                    <Expander Header="The installer can't connect to the Frame">
+                        <TextBlock Classes="body">Check that the headset is turned on and awake, that it is on the same network as this PC, and that a user password is set in its developer settings. If the name "frame" can't be found on your network, open Advanced on the Install tab and enter the headset's IP address instead.</TextBlock>
+                    </Expander>
+
+                    <Expander Header="The password is rejected">
+                        <TextBlock Classes="body">The installer needs the user password you set in the Frame's developer settings, not your Steam or PC password. It is case sensitive. If you're unsure what it is, set it again on the headset.</TextBlock>
+                    </Expander>
+
+                    <Expander Header="The install never finishes">
+                        <TextBlock Classes="body">Click Cancel, tick Show details on the Install tab and try again to see what the headset reports. One possible cause is the headset having no internet access, so it can't download the release from GitHub.</TextBlock>
+                    </Expander>
+
+                    <Expander Header="The eye camera streams are blank">
+                        <TextBlock Classes="body">Put on the headset. The eye tracking service stops when the headset isn't being worn, so there is nothing to stream.</TextBlock>
+                    </Expander>
+
+                    <Expander Header="Only one eye shows anything, and it keeps pausing">
+                        <TextBlock Classes="body">This happens when the proximity sensor is only covered rather than the headset being worn: eye tracking then runs one eye, in bursts. Put the headset on and the second eye gets picked up within a few seconds.</TextBlock>
+                    </Expander>
+
+                    <Expander Header="The eye camera streams look wrong">
+                        <TextBlock Classes="body">Take off the headset for a few seconds, then put it back on.</TextBlock>
+                    </Expander>
+
+                    <Expander Header="The status page or feeds won't open">
+                        <TextBlock Classes="body">Try the headset's IP address in place of "frame" in the address. If that doesn't load either, run Install / Update again.</TextBlock>
+                    </Expander>
+
+                    <!-- Add more troubleshooting entries here -->
+
+                    <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,6,0,0">
+                        <TextBlock Classes="muted" VerticalAlignment="Center">Still stuck?</TextBlock>
+                        <HyperlinkButton FontSize="12.5" NavigateUri="https://github.com/Curtis-VL/FrameEyeCameraFeed/issues">Open an issue on GitHub</HyperlinkButton>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

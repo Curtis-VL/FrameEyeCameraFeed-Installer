@@ -1,0 +1,224 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:FrameEyeCameraFeed_Installer"
+        mc:Ignorable="d" d:DesignWidth="920" d:DesignHeight="680"
+        x:Class="FrameEyeCameraFeed_Installer.MainWindow"
+        Width="920" Height="680"
+        Title="FrameEyeCameraFeed Installer"
+        RequestedThemeVariant="Dark"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource AppBackgroundBrush}"
+        CanResize="False">
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="24,20,24,8">
+            <Border Width="42" Height="42" CornerRadius="11" Background="{StaticResource AccentTintBrush}">
+                <PathIcon Data="{StaticResource IconEye}" Width="22" Height="22" Foreground="{StaticResource AccentBrush}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="14,0" VerticalAlignment="Center" Spacing="2">
+                <TextBlock Classes="title">FrameEyeCameraFeed Installer</TextBlock>
+                <TextBlock Classes="muted">Installs the eye camera feed service on your Steam Frame over your local network.</TextBlock>
+            </StackPanel>
+            <HyperlinkButton Grid.Column="2" VerticalAlignment="Center"
+                             NavigateUri="https://github.com/Curtis-VL/FrameEyeCameraFeed">View source on GitHub</HyperlinkButton>
+        </Grid>
+
+        <TabControl Grid.Row="1" Name="MainTabs" Margin="24,0" Padding="0,14,0,16">
+
+            <!-- ===== Install ===== -->
+            <TabItem Header="Install">
+                <Grid ColumnDefinitions="390,16,*">
+
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Spacing="14">
+
+                            <Border Classes="card">
+                                <StackPanel Spacing="10">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBlock Classes="h2">Before you begin</TextBlock>
+                                        <HyperlinkButton Grid.Column="1" Name="SetupGuideLink" VerticalAlignment="Center">Setup guide</HyperlinkButton>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="10">
+                                        <PathIcon Grid.Row="0" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource AccentBrush}" />
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Classes="body">The Frame is turned on.</TextBlock>
+                                        <PathIcon Grid.Row="1" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource AccentBrush}" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Classes="body">The Frame is on the same network as this PC.</TextBlock>
+                                        <PathIcon Grid.Row="2" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Classes="body">You have set a user password in the Frame's developer settings.</TextBlock>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Classes="card">
+                                <StackPanel Spacing="10">
+                                    <TextBlock Classes="h2">Sign in to your headset</TextBlock>
+
+                                    <StackPanel Spacing="6">
+                                        <TextBlock Classes="label">Frame user password</TextBlock>
+                                        <TextBox Name="PassInput" PasswordChar="●" Classes="revealPasswordButton"
+                                                 PlaceholderText="Password from the Frame's developer settings" />
+                                        <TextBlock Classes="muted">Set on the headset itself. Not your Steam or PC password.</TextBlock>
+                                    </StackPanel>
+
+                                    <Border Classes="safe">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                            <PathIcon Data="{StaticResource IconShield}" Width="18" Height="18" VerticalAlignment="Top" Margin="0,1,0,0"
+                                                      Foreground="{StaticResource SafeBrush}" />
+                                            <StackPanel Grid.Column="1" Spacing="4">
+                                                <TextBlock Classes="muted" Foreground="{StaticResource TextBrush}">Sent only to your headset, over an encrypted SSH connection on your local network. It is never saved and never sent anywhere else.</TextBlock>
+                                                <HyperlinkButton Name="SecurityLink" FontSize="12.5">See exactly what this installer does</HyperlinkButton>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+
+                                    <Expander Header="Advanced">
+                                        <StackPanel Spacing="6">
+                                            <TextBlock Classes="label">Headset address</TextBlock>
+                                            <TextBox Name="HostInput" Text="frame" PlaceholderText="frame" />
+                                            <TextBlock Classes="muted">Leave as "frame" unless the headset can't be found, then enter its IP address instead.</TextBlock>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Border Grid.Column="2" Classes="card">
+                        <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="12">
+
+                            <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="10">
+                                <Button Name="InstallButton" Classes="accent" MinWidth="130" HorizontalContentAlignment="Center">Install / Update</Button>
+                                <Button Grid.Column="1" Name="UninstallButton" MinWidth="90" HorizontalContentAlignment="Center">Uninstall</Button>
+                                <Button Grid.Column="3" Name="CancelButton" IsVisible="False">Cancel</Button>
+                            </Grid>
+
+                            <CheckBox Grid.Row="1" Name="VrcSetupCheck" FontSize="13"
+                                      ToolTip.Tip="After installing, opens the VRChat setup tab: installs the VRCFaceTracking module and walks you through EyeTrackVR. Leave unticked if you only want the camera streams.">Then set up VRChat eye tracking on this PC</CheckBox>
+
+                            <StackPanel Grid.Row="2" Spacing="6">
+                                <TextBlock Name="StatusText" Classes="label">Ready</TextBlock>
+                                <ProgressBar Name="BusyBar" IsIndeterminate="True" IsVisible="False" Height="3" MinHeight="3" />
+                            </StackPanel>
+
+                            <Border Grid.Row="3" Classes="inset">
+                                <ScrollViewer Name="LogScroll" Padding="12,10">
+                                    <SelectableTextBlock Name="LogTextBlock" Classes="mono" Foreground="{StaticResource TextBrush}" />
+                                </ScrollViewer>
+                            </Border>
+
+                            <Grid Grid.Row="4" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <CheckBox Name="DetailsCheck" FontSize="12.5" ToolTip.Tip="Show the raw output from the headset in the log">Show details</CheckBox>
+                                <Button Grid.Column="1" Name="StatusButton">Open status page</Button>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== VRChat setup (step-by-step guide, see VrcSetupPage.axaml) ===== -->
+            <TabItem Name="VrcTab" Header="VRChat setup">
+                <local:VrcSetupPage Name="VrcSetup" />
+            </TabItem>
+
+            <!-- ===== Setup & troubleshooting (edit the content in HelpPage.axaml) ===== -->
+            <TabItem Name="HelpTab" Header="Setup &amp; troubleshooting">
+                <local:HelpPage />
+            </TabItem>
+
+            <!-- ===== Security & privacy ===== -->
+            <TabItem Name="SecurityTab" Header="Security &amp; privacy">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="14" Margin="0,0,14,0">
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="12">
+                                <TextBlock Classes="h2">What happens when you click Install</TextBlock>
+
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <Border Classes="step"><TextBlock>1</TextBlock></Border>
+                                    <StackPanel Grid.Column="1" Spacing="6">
+                                        <TextBlock Classes="body">This app opens an encrypted SSH connection from this PC straight to your headset, signing in with the password you typed:</TextBlock>
+                                        <Border Classes="inset" Padding="12,8">
+                                            <SelectableTextBlock Name="SshTargetText" Classes="mono" />
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <Border Classes="step"><TextBlock>2</TextBlock></Border>
+                                    <StackPanel Grid.Column="1" Spacing="6">
+                                        <TextBlock Classes="body">It runs one command on the headset. The headset downloads the latest FrameEyeCameraFeed release from GitHub, checks it against its checksum, and installs it as a service that starts on boot:</TextBlock>
+                                        <Border Classes="inset" Padding="12,8">
+                                            <SelectableTextBlock Name="InstallCommandText" Classes="mono" />
+                                        </Border>
+                                        <TextBlock Classes="muted">Uninstall runs the same command with "-s -- --uninstall" added, which removes the service again.</TextBlock>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <Border Classes="step"><TextBlock>3</TextBlock></Border>
+                                    <TextBlock Grid.Column="1" Classes="body">Installing a service needs administrator (sudo) rights on the headset, so the headset asks for the password once more and this app answers with the same one. Then it disconnects.</TextBlock>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="10">
+                                <TextBlock Classes="h2">Your password</TextBlock>
+                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="10">
+                                    <PathIcon Grid.Row="0" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource SafeBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Classes="body">It is the local password of the headset, set in its developer settings. It has nothing to do with your Steam account or your PC login.</TextBlock>
+                                    <PathIcon Grid.Row="1" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource SafeBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Classes="body">It is sent only to the headset, inside the encrypted SSH connection.</TextBlock>
+                                    <PathIcon Grid.Row="2" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource SafeBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Classes="body">It is held in memory only while this window is open. It is never written to disk or to the log.</TextBlock>
+                                    <PathIcon Grid.Row="3" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource SafeBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Classes="body">There are no accounts, no analytics and no update checks. The only other thing this app connects to is GitHub, to download the VRCFaceTracking module if you use the VRChat setup tab. Links open in your own browser.</TextBlock>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="10">
+                                <TextBlock Classes="h2">What the VRChat setup tab changes on this PC</TextBlock>
+                                <TextBlock Classes="body">That tab is optional and never uses your password. Each change only happens when you click its button, and is listed in the log on that step:</TextBlock>
+                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="10">
+                                    <PathIcon Grid.Row="0" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource SafeBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Classes="body">Install module downloads the latest ETVRTrackingModule-SteamLink release from GitHub into VRCFaceTracking's CustomLibs folder.</TextBlock>
+                                    <PathIcon Grid.Row="1" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource SafeBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Classes="body">If the original EyeTrackVR module is in that folder it is only deleted after you are shown the exact files and agree.</TextBlock>
+                                    <PathIcon Grid.Row="2" Data="{StaticResource IconCheck}" Width="14" Height="14" Foreground="{StaticResource SafeBrush}" VerticalAlignment="Top" Margin="0,3,0,0" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Classes="body">Apply settings turns on three Steam Link OSC options in SteamVR's settings file (steamvr.vrsettings) and keeps a backup of the previous file next to it.</TextBlock>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="8">
+                                <TextBlock Classes="h2">Prefer to do it by hand?</TextBlock>
+                                <TextBlock Classes="body">You don't need this app. Connect to the headset over SSH yourself (or open Konsole on the headset) and run the command above; the result is identical. Both this installer and the software it installs are open source, so you can read exactly what they do.</TextBlock>
+                                <StackPanel Orientation="Horizontal" Spacing="20">
+                                    <HyperlinkButton NavigateUri="https://github.com/Curtis-VL/FrameEyeCameraFeed">FrameEyeCameraFeed on GitHub</HyperlinkButton>
+                                    <HyperlinkButton NavigateUri="https://github.com/Curtis-VL/FrameEyeCameraFeed/releases/latest">Latest release and install script</HyperlinkButton>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- Footer -->
+        <Border Grid.Row="2" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="0,1,0,0" Padding="24,10">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <PathIcon Data="{StaticResource IconLock}" Width="13" Height="13" Foreground="{StaticResource MutedTextBrush}" />
+                <TextBlock Classes="muted">Open source  ·  Your password goes only to your headset, on your local network  ·  It is never saved</TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
